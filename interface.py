@@ -2,7 +2,7 @@ import os
 from customtkinter import *
 from tkinter import filedialog
 from functions.main import *
-from PIL import Image
+from PIL import Image, ImageTk
 
 
 class Conversor:
@@ -10,7 +10,6 @@ class Conversor:
         self.window = CTk()
         self.window.title("Conversor de Arquivos")
         self.window.geometry("400x300")
-        self.window.iconbitmap("images/logo.ico")
         self.window.resizable(False, False)
         self.options()
         self.window.mainloop()
@@ -69,10 +68,11 @@ class Conversor:
 
     def pdf_to_docx(self):
         caminho_entrada = self.arquivo
-        caminho_saida = self.nome_arquivo.replace(".pdf", ".docx")
+        caminho_saida = caminho_entrada.replace(".pdf", ".docx")
         
       
         pdf_to_word(caminho_entrada, caminho_saida)
+        print(caminho_saida)
         self.entrada_arquivo.delete(0, END)
        
 
@@ -82,6 +82,7 @@ class Conversor:
         
       
         word_to_pdf(caminho_entrada, caminho_saida)
+        print(caminho_saida)
         self.entrada_arquivo.delete(0, END)
 
 
@@ -110,8 +111,11 @@ class Conversor:
             self.nome_arquivo = os.path.basename(self.arquivo)       
             self.entrada_arquivo.insert(0, self.nome_arquivo)
 
+        print(self.arquivo)
+
 
     def window_pdf_to_docx(self):
+        self.window.destroy()
         window = CTk()
         window.title("PDF para DOCX")
         window.geometry("400x300")
@@ -119,13 +123,25 @@ class Conversor:
         self.entrada_arquivo = CTkEntry(window, width=250, height=30, border_color='blue')
         self.entrada_arquivo.place(x=70, y=60)
 
-        botao = CTkButton(window, 
+        voltar_img = Image.open("images/voltar.png")  # Abrir a imagem
+        voltar_img = CTkImage(dark_image=voltar_img, light_image=voltar_img, size=(30, 30))  # Criar a imagem
+
+        self.voltar = CTkButton(window, text="", 
+            image=voltar_img, 
+            command=lambda: [window.destroy(), self.__init__()],
+            fg_color='transparent',
+            width=0,
+            state='voltar'
+        )
+        self.voltar.place(x=2, y=5)
+
+        procurar_arquivo = CTkButton(window, 
             text="Procurar arquivo",
             command=self.escolher_arquivo,
             width=150,
             font=('Verdana', 16)
         )
-        botao.place(x=120, y=120)
+        procurar_arquivo.place(x=120, y=120)
 
         converter = CTkButton(window, text="Converter", 
             font=('Verdana', 16), 
@@ -139,6 +155,7 @@ class Conversor:
 
 
     def window_docx_to_pdf(self):
+        self.window.destroy()
         window = CTk()
         window.title("DOCX para PDF")
         window.geometry("400x300")
@@ -146,17 +163,28 @@ class Conversor:
         self.entrada_arquivo = CTkEntry(window, width=250)
         self.entrada_arquivo.place(x=70, y=60)
 
-        botao = CTkButton(window, 
+        voltar_img = Image.open("images/voltar.png")  # Abrir a imagem
+        voltar_img = CTkImage(dark_image=voltar_img, light_image=voltar_img, size=(30, 30))  # Criar a imagem
+
+        self.voltar = CTkButton(window, text="", 
+            image=voltar_img, 
+            command=lambda: [window.destroy(), self.__init__()],
+            fg_color='transparent',
+            width=0
+        )
+        self.voltar.place(x=2, y=5)
+
+        procurar_arquivo = CTkButton(window, 
             text="Procurar arquivo",
             command=self.escolher_arquivo,
             width=150,
             font=('Verdana', 16)
         )
-        botao.place(x=120, y=120)
+        procurar_arquivo.place(x=120, y=120)
 
         converter = CTkButton(window, text="Converter", 
             font=('Verdana', 16), 
-            command=self.pdf_to_docx,
+            command=self.docx_to_pdf,
             fg_color='#191970',
             hover_color='#000080'
         )
@@ -167,6 +195,7 @@ class Conversor:
 
 
     def window_jpg_to_pdf(self):
+        self.window.destroy()
         window = CTk()
         window.title("JPG para PDF")
         window.geometry("400x300")
@@ -174,17 +203,28 @@ class Conversor:
         self.entrada_arquivo = CTkEntry(window, width=250)
         self.entrada_arquivo.place(x=70, y=60)
 
-        botao = CTkButton(window, 
+        voltar_img = Image.open("images/voltar.png")  # Abrir a imagem
+        voltar_img = CTkImage(dark_image=voltar_img, light_image=voltar_img, size=(30, 30))  # Criar a imagem
+
+        self.voltar = CTkButton(window, text="", 
+            image=voltar_img, 
+            command=lambda: [window.destroy(), self.__init__()],
+            fg_color='transparent',
+            width=0
+        )
+        self.voltar.place(x=2, y=5)
+
+        procurar_arquivo = CTkButton(window, 
             text="Procurar arquivo",
             command=self.escolher_arquivo,
             width=150,
             font=('Verdana', 16)
         )
-        botao.place(x=120, y=120)
+        procurar_arquivo.place(x=120, y=120)
 
         converter = CTkButton(window, text="Converter", 
             font=('Verdana', 16), 
-            command=self.pdf_to_docx,
+            command=self.jpg_to_pdf,
             fg_color='#191970',
             hover_color='#000080'
         )
@@ -195,6 +235,7 @@ class Conversor:
 
 
     def window_xlsx_to_pdf(self):
+        self.window.destroy()
         window = CTk()
         window.title("Excel para PDF")
         window.geometry("400x300")
@@ -202,17 +243,28 @@ class Conversor:
         self.entrada_arquivo = CTkEntry(window, width=250)
         self.entrada_arquivo.place(x=70, y=60)
 
-        botao = CTkButton(window, 
+        voltar_img = Image.open("images/voltar.png")  # Abrir a imagem
+        voltar_img = CTkImage(dark_image=voltar_img, light_image=voltar_img, size=(30, 30))  # Criar a imagem
+
+        self.voltar = CTkButton(window, text="", 
+            image=voltar_img, 
+            command=lambda: [window.destroy(), self.__init__()],
+            fg_color='transparent',
+            width=0
+        )
+        self.voltar.place(x=2, y=5)
+
+        procurar_arquivo = CTkButton(window, 
             text="Procurar arquivo",
             command=self.escolher_arquivo,
             width=150,
             font=('Verdana', 16)
         )
-        botao.place(x=120, y=120)
+        procurar_arquivo.place(x=120, y=120)
 
         converter = CTkButton(window, text="Converter", 
             font=('Verdana', 16), 
-            command=self.pdf_to_docx,
+            command=self.xlsx_to_pdf,
             fg_color='#191970',
             hover_color='#000080'
         )
